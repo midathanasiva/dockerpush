@@ -1,28 +1,28 @@
 pipeline {
- agent any
- environment {
-  DOCKER_TAG= getDockerTag ()
-}
- stages {
-  stage ("download git code") {
-   steps{
-    git branch: 'main', credentialsId: 'gitcredentials', url: 'https://github.com/midathanasiva/dockerpush'
-}
+  agent any
+  environment {
+    DOCKER_TAG= getDockerTag ()
  }
+   stages {
+   stage ("download git code") {
+     steps{
+       git branch: 'main', credentialsId: 'gitcredentials', url: 'https://github.com/midathanasiva/dockerpush'
+        }
+    }
 
-  stage ("create image") {
+   stage ("create image") {
 
-   steps{
-    sh "docker build -t rvnjssss/nodeapp2:${DOCKER_TAG} ."
+      steps{
+          sh "docker build -t rvnjssss/nodeapp2:${DOCKER_TAG} ."
    
 }
 }
-  stage ("docker push")
-{
-   steps {
-    withCredentials([string(credentialsId: 'jenkinspasswordonly', variable: 'passfordocker')]) {
-      sh "docker login -u rvnjssss -p ${passfordocker}"
-      sh "docker push rvnjssss/nodeapp2:${DOCKER_TAG}"
+   stage ("docker push")
+  {
+      steps {
+                  withCredentials([string(credentialsId: 'jenkinspasswordonly', variable: 'passfordocker')]) {
+                    sh "docker login -u rvnjssss -p ${passfordocker}"
+                    sh "docker push rvnjssss/nodeapp2:${DOCKER_TAG}"
 }
 
     
@@ -32,7 +32,7 @@ pipeline {
 }
 }
 }
-}
+
 
 def getDockerTag() {
 
