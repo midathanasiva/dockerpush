@@ -13,7 +13,7 @@ pipeline {
    stage ("create image") {
 
       steps{
-          sh "docker build -t rvnjssss/nodeapp2:${DOCKER_TAG} ."
+          sh "docker build . -t rvnjssss/nodeapp2:${DOCKER_TAG}"
    
 }
 }
