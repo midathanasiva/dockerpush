@@ -6,7 +6,7 @@ pipeline {
  stages {
   stage ("download git code") {
    steps{
-    sh "credentialsId: 'github' 
+    git branch: 'main', credentialsId: 'gitcredentials', url: 'https://github.com/midathanasiva/dockerpush'
 }
  }
 
@@ -20,9 +20,13 @@ pipeline {
   stage ("docker push")
 {
    steps {
+    withCredentials([string(credentialsId: 'jenkinspasswordonly', variable: 'passfordocker')]) {
+      sh "docker login -u rvnjssss -p ${passfordocker}"
+      sh "docker push rvnjssss/nodeapp2:${DOCKER_TAG}"
+}
 
-    sh "docker login -u rvnjssss -p ${dockerhubPwd}"
-    sh "docker push rvnjssss/nodeapp2:${DOCKER_TAG}"
+    
+   
 
 }
 }
